@@ -77,14 +77,45 @@ const [holidayPopup, setHolidayPopup]=useState(null);
       };
   }
 };
-const handleSelect=(date) => {
-const holidayKey = `${monthNames[month]} ${date.getDate()}`;
-const holidayName=holidays[holidayKey];
-if (holidayName) {
-  const details = getHolidayDetails(holidayName);
-  setHolidayPopup({name: holidayName,desc: details.desc,img: details.img
-});
-}
+const handleSelect = (date) => {
+  const holidayKey = `${monthNames[month]} ${date.getDate()}`;
+  const holidayName = holidays[holidayKey];
+
+  // ✅ Holiday popup (unchanged)
+  if (holidayName) {
+    const details = getHolidayDetails(holidayName);
+    setHolidayPopup({
+      name: holidayName,
+      desc: details.desc,
+      img: details.img,
+    });
+  }
+
+  // ✅ RANGE SELECTOR (THIS WAS MISSING)
+  if (!range.start || range.end) {
+    setRange({ start: date, end: null });
+  } else {
+    setRange({
+      start: range.start < date ? range.start : date,
+      end: range.start < date ? date : range.start,
+    });
+  }
+
+  // ✅ Selected date (for notes)
+  setSelectedDate(date);
+
+  const key = date.toDateString();
+
+  // ✅ Load existing note
+  setInput(notes[key] || "");
+
+  // ✅ Energy map (unchanged)
+  if (!energyMap[key]) {
+    setEnergyMap((prev) => ({
+      ...prev,
+      [key]: Math.floor(Math.random() * 5) + 1,
+    }));
+  }
 };
   const saveNote = () => {
     if (!selectedDate) return;
