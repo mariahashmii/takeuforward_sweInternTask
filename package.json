@@ -1,5 +1,13 @@
 {
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
   "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
     "@netlify/plugin-nextjs": "^5.15.9",
     "framer-motion": "^12.38.0"
   }
